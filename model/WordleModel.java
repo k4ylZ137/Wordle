@@ -3,6 +3,7 @@ package model;
 import controller.ReadWordsRunnable;
 
 import java.awt.Color;
+import java.io.IOException;
 import java.util.List;
 import java.util.Random;
 
@@ -19,7 +20,7 @@ public class WordleModel {
 
     private WordleResponse[][] wordleGrid;
 
-    public WordleModel() {
+    public WordleModel() throws IOException {
         this.currentCol = -1;
         this.currentRow = 0;
         this.columnCount = 5;
@@ -27,14 +28,14 @@ public class WordleModel {
         this.random = new Random();
 
         // Initialize word list asynchronously
-        createWordleList();
+        createWordList();
 
         // Initialize wordle grid
         this.wordleGrid = initialiseWordleGrid();
         this.guess = new char[columnCount];
     }
 
-    private void createWordleList() {
+    private void createWordList() throws IOException {
         ReadWordsRunnable runnable = new ReadWordsRunnable(this);
         new Thread(runnable).start();
     }
@@ -141,6 +142,10 @@ public class WordleModel {
     }
 
     public int getTotalWordCount() {
-        return wordList.size();
+        if (wordList != null) {
+            return wordList.size();
+        }else{
+            return 0;
+        }
     }
 }

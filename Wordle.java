@@ -2,6 +2,7 @@ import model.WordleModel;
 import view.Frame;
 
 import javax.swing.SwingUtilities;
+import java.io.IOException;
 
 public class Wordle implements Runnable{
 
@@ -11,6 +12,10 @@ public class Wordle implements Runnable{
 
     @Override
     public void run(){
-        new Frame(new WordleModel());
+        try {
+            new Frame(new WordleModel());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
