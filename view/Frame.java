@@ -11,14 +11,15 @@ import java.awt.event.WindowEvent;
 
 public class Frame {
 
-    private final JFrame frame;
+    private final JFrame frame; // Frame instance to hold the main application window
 
-    private final PanelKeyboard keyboard;
+    private final PanelKeyboard keyboard; // Instance of PanelKeyboard for user keyboard interaction
 
-    private final WordleModel model;
+    private final WordleModel model; // Instance of WordleModel to handle game data
 
-    private final WordleGrid wordleGrid;
+    private final WordleGrid wordleGrid; // Instance of WordleGrid to display the word grid
 
+    // Constructor to initialize the Frame
     public Frame(WordleModel model) {
         this.model = model;
         this.keyboard = new PanelKeyboard(this, model);
@@ -27,20 +28,21 @@ public class Frame {
         this.frame = createGUI();
     }
 
+    // Method to create the main GUI frame
     private JFrame createGUI() {
         JFrame frame = new JFrame("Wordle");
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.setJMenuBar(createMenuBar());
         frame.setResizable(false);
-        frame.addWindowListener(new WindowAdapter() {
+        frame.addWindowListener(new WindowAdapter() { // Add window listener for closing event
             @Override
             public void windowClosing(WindowEvent e) {
                 shutdown();
             }
         });
 
-        frame.add(createTitlePanel(), BorderLayout.NORTH); // Changed method name to camelCase
-        frame.add(wordleGrid, BorderLayout.CENTER);
+        frame.add(createTitlePanel(), BorderLayout.NORTH);
+        frame.add(wordleGrid, BorderLayout.CENTER); // doesn't centre grid?
         frame.add(keyboard.getPanel(), BorderLayout.SOUTH);
 
         frame.pack();
@@ -52,29 +54,31 @@ public class Frame {
         return frame;
     }
 
+    // Method to create the menu bar
     private JMenuBar createMenuBar() {
         JMenuBar menu = new JMenuBar();
 
         JMenu helpMenu = new JMenu("Help");
         menu.add(helpMenu);
 
-        JMenuItem instructions = new JMenuItem("Instructions..."); // Changed variable name to camelCase
-        instructions.addActionListener(event -> instructionsDialog(Frame.this)); // Changed method name to camelCase
+        JMenuItem instructions = new JMenuItem("Instructions...");
+        instructions.addActionListener(event -> instructionsDialog(this));
         helpMenu.add(instructions);
 
-        JMenuItem about = new JMenuItem("About..."); // Changed variable name to camelCase
-        about.addActionListener(event -> aboutDialog(Frame.this)); // Changed method name to camelCase
+        JMenuItem about = new JMenuItem("About...");
+        about.addActionListener(event -> aboutDialog(this));
         helpMenu.add(about);
 
-        return menu;
+        return menu; // Return the created menu bar
     }
 
+    // Method to create the title panel
     private JPanel createTitlePanel() {
         JPanel panel = new JPanel(new FlowLayout());
-        panel.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 5));
+        panel.setBorder(BorderFactory.createEmptyBorder(0, 5, 5, 5));
 
-        InputMap inputMap = panel.getInputMap(JPanel.WHEN_IN_FOCUSED_WINDOW);
-        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "cancelAction");
+        InputMap inputMap = panel.getInputMap(JPanel.WHEN_IN_FOCUSED_WINDOW); // Get input map for panel
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "cancelAction"); // Add key binding for escape key
         ActionMap actionMap = panel.getActionMap();
         actionMap.put("cancelAction", new CancelAction());
 
@@ -85,35 +89,43 @@ public class Frame {
         return panel;
     }
 
+    // Method to handle application shutdown
     public void shutdown() {
-        frame.dispose();
-        System.exit(0);
+        frame.dispose(); // Dispose the frame
+        System.exit(0); // Exit the application
     }
 
+    // Method to reset default colors
     public void resetDefaultColours() {
-        keyboard.resetDefaultColours();
+        keyboard.resetDefaultColors(); // Call resetDefaultColours method of keyboard
     }
 
+    // Getter method to get the frame instance
     public JFrame getFrame() {
-        return frame;
+        return frame; // Return the frame instance
     }
 
+    // Method to set color for a letter in the keyboard
     public void setColor(String letter, Color backgroundColor, Color foregroundColor) {
-        keyboard.setColor(letter, backgroundColor, foregroundColor);
+        keyboard.setColor(letter, backgroundColor, foregroundColor); // Call setColor method of keyboard
     }
 
+    // Method to repaint the wordle grid
     public void repaintGrid() {
         wordleGrid.repaint();
     }
 
-    private static void instructionsDialog(Frame frame) { // Changed method name to camelCase
+    // Method to display instructions dialog
+    private static void instructionsDialog(Frame frame) {
         // Implement instructions dialog
     }
 
-    private static void aboutDialog(Frame frame) { // Changed method name to camelCase
+    // Method to display about dialog
+    private static void aboutDialog(Frame frame) {
         // Implement about dialog
     }
 
+    // Inner class representing cancel action
     private class CancelAction extends AbstractAction {
         private static final long serialVersionUID = 1L;
 
