@@ -1,4 +1,5 @@
 import model.WordleModel;
+import view.Frame;
 
 import javax.swing.SwingUtilities;
 
@@ -10,6 +11,6 @@ public class Wordle implements Runnable{
 
     @Override
     public void run(){
-        new WordleFrame(new WordleModel());
+        new Frame(new WordleModel());
     }
 }

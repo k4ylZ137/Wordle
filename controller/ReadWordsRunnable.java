@@ -40,18 +40,20 @@ public class ReadWordsRunnable implements Runnable {
             LOGGER.info("Created word list of " + wordlist.size() + " words.");
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, "Error creating word list", e);
+            e.printStackTrace();
             wordlist = new ArrayList<>();
         }
         model.setWordList(wordlist);
         model.generateCurrentWord();
     }
 
+
     private List<String> createWordList() throws IOException {
         int min = model.getColumnCount();
 
         List<String> wordlist = new ArrayList<>();
 
-        String text = "random.txt";
+        String text = "wordle.txt";
         ClassLoader loader = this.getClass().getClassLoader();
         InputStream stream = loader.getResourceAsStream(text);
 

@@ -94,6 +94,10 @@ public class WordleModel {
         return currentRow - 1;
     }
 
+    public WordleResponse[] getCurrentRow(){
+        return wordleGrid[getCurrentRowNumber()];
+    }
+
     public boolean setCurrentRow() {
         for (int column = 0; column < guess.length; column++) {
             Color backgroundColor = Color.GRAY;
