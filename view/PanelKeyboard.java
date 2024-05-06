@@ -144,4 +144,39 @@ public class PanelKeyboard {
 
         return panel;
     }
+
+    // Method to set color for a button
+    public void setColor(String letter, Color backgroundColor,
+                         Color foregroundColor) {
+        for (JButton button : buttons) {
+            if (button.getActionCommand().equals(letter)) {
+                Color color = button.getBackground();
+                if (color.equals(AppColors.GREEN)) {
+                    // Do nothing
+                } else if (color.equals(AppColors.YELLOW)
+                        && backgroundColor.equals(AppColors.GREEN)) {
+                    button.setBackground(backgroundColor);
+                    button.setForeground(foregroundColor);
+                } else {
+                    button.setBackground(backgroundColor);
+                    button.setForeground(foregroundColor);
+                }
+                break;
+            }
+        }
+    }
+
+    // Method to reset default colors of buttons
+    public void resetDefaultColors() {
+        for (JButton button : buttons) {
+            button.setBackground(null);
+            button.setForeground(null);
+        }
+    }
+
+    // Method to get the panel
+    public JPanel getPanel() {
+        return panel;
+    }
+
 }
