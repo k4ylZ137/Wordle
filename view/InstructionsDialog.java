@@ -3,6 +3,7 @@ package view;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.net.URL;
@@ -11,13 +12,13 @@ public class InstructionsDialog extends JDialog {
 
     private static final long serialVersionUID = 1L;
 
-    private final CancelAction cancelAction;
+    private final CancelActionImpl cancelActionImpl;
 
     private JEditorPane editor;
 
     public InstructionsDialog(Frame view){
         super(view.getFrame(), "Instructions", true);
-        this.cancelAction = new CancelAction();
+        this.cancelActionImpl = new CancelActionImpl();
 
         add(createMainPanel(), BorderLayout.CENTER);
         add(createButtonPanel(), BorderLayout.SOUTH);
@@ -56,21 +57,21 @@ public class InstructionsDialog extends JDialog {
         InputMap inputMap = panel.getInputMap(JPanel.WHEN_IN_FOCUSED_WINDOW);
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "cancelAction");
         ActionMap actionMap = panel.getActionMap();
-        actionMap.put("cancelAction", cancelAction);
+        actionMap.put((Object) "cancelAction", (Action) cancelActionImpl);
 
         JButton button = new JButton("Cancel");
-        button.addActionListener(cancelAction);
+        button.addActionListener((ActionListener) cancelActionImpl);
         panel.add(button);
 
         return panel;
     }
 
-    private class CancelAction extends AbstractAction {
+    private class CancelActionImpl implements CancelAction {
 
         private static final long serialVersionUID = 1L;
 
         @Override
-        public void actionPerformed(ActionEvent event){
+        public void cancel(ActionEvent event) {
             dispose();
         }
     }
